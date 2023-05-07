@@ -2,6 +2,13 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export default async (req, res) => {
+    const apiKey = req.headers['x-api-key']
+
+    if (apiKey !== process.env.AUTH_0_DIGITOLL_API_KEY) {
+        res.status(401).json({ messages: ['A valid x-api-key is required.'] })
+        return
+    }
+
     if (req.method === 'POST') {
         const authId = req.body.authId
         const payoutAccountId = req.body.payoutAccountId
@@ -10,7 +17,7 @@ export default async (req, res) => {
         const errors = []
 
         if (authId === undefined) {
-            errors.push('An authId is required.')
+            errors.push('A authId is required.')
         }
 
         if (payoutAccountId === undefined) {
@@ -26,16 +33,21 @@ export default async (req, res) => {
             return
         }
 
-        const user = await prisma.user.create({
-            data: {
-                authId,
-                payoutAccountId,
-                email
-            },
-        })
+        try {
+            const user = await prisma.user.create({
+                data: {
+                    authId,
+                    payoutAccountId,
+                    email
+                },
+            })
 
-        res.json(user)
-        return
+            res.json(user)
+            return
+        } catch (error) {
+            res.status(500).json({ messages: ['Something went wrong.'] })
+            return
+        }
     }
 
     res.status(400).json({ messages: ['Invalid operation'] })
