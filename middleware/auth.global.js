@@ -3,6 +3,7 @@ import getAccessToken from './utilities/getAccessToken'
 import hasValidAccessToken from './utilities/hasValidAccessToken'
 import silentlyAuthenticate from './utilities/silentlyAuthenticate'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 
 export default defineNuxtRouteMiddleware(async (to) => {
     try {
@@ -13,6 +14,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
       if (accessToken) {
         if (hasValidAccessToken(accessToken)) {
           // Do something now that the user is authorized
+          const response = await axios.get('/api/v1/self', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
+          console.log(response.data)
+
           console.log('Authorized')
           return
         }
@@ -35,6 +43,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
         Cookies.set('digitoll_token', silentAccessToken)
 
         // Do something now that the user is authorized
+        const response = await axios.get('/api/v1/self', {
+          headers: {
+            Authorization: `Bearer ${silentAccessToken}`
+          }
+        })
+        console.log(response.data)
+
         console.log('Authorized')
         return
       }
