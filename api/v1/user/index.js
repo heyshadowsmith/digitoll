@@ -5,7 +5,7 @@ export default async (req, res) => {
     const apiKey = req.headers['x-api-key']
 
     if (apiKey !== process.env.DIGITOLL_API_KEY) {
-        res.status(401).json({ messages: ['A valid x-api-key is required.'] })
+        res.status(401).json({ messages: ['Unauthorized'] })
         return
     }
 
