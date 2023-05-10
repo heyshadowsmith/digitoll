@@ -17,9 +17,12 @@ export const useSelfStore = defineStore('selfStore', {
         },
         signOut() {
             Cookies.remove('digitoll_token')
-            
+
+            const domain = window.location.hostname
+            const returnTo = domain === 'localhost' ? `http://localhost:3000` : `https://${domain}`
+
             auth.logout({
-                returnTo: 'http://localhost:3000'
+                returnTo
             })
 
             this.self = {
