@@ -3,7 +3,7 @@
     <div v-if="self.loginLink"><a :href="self.loginLink">Login to your payout account</a></div>
     <div v-if="self.editAccountLink"><a :href="self.editAccountLink">Edit your payout account details</a></div>
     <div>
-        <button v-if="!self.authorized" @click="auth.authorize({})">Sign In</button>
+        <button v-if="!self.id" @click="auth.authorize({})">Sign In</button>
         <button v-else @click="store.signOut()">Sign Out</button>
     </div>
     <p v-if="self.id">Signed in as {{ self.email }}.</p>
