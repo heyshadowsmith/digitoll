@@ -1,7 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
+import Stripe from 'stripe'
 
+const stripe = new Stripe(process.env.STRIPE_API_KEY)
 const prisma = new PrismaClient()
 
 const client = jwksClient({
@@ -33,7 +35,28 @@ export default async (req, res) => {
                 }
             })
 
-            res.status(200).json(user) 
+            const account = await stripe.accounts.retrieve(user.payoutAccountId)
+            const finishedOnboarding = account.charges_enabled && account.details_submitted
+            const loginLink = await stripe.accounts.createLoginLink(user.payoutAccountId)
+
+            let onboardingLink = null
+
+            if (!finishedOnboarding) {
+                const accountLink = await stripe.accountLinks.create({
+                    account: user.payoutAccountId,
+                    refresh_url: process.env.STRIPE_API_REFRESH_URL,
+                    return_url: process.env.STRIPE_API_RETURN_URL,
+                    type: 'account_onboarding',
+                })
+
+                onboardingLink = accountLink.url
+            }
+
+            res.status(200).json({
+                ...user,
+                loginLink: loginLink.url,
+                onboardingLink
+            }) 
             return
         } catch (error) {
             console.error(error)

@@ -4,16 +4,11 @@ import Cookies from 'js-cookie'
 
 export const useSelfStore = defineStore('selfStore', {
     state: () => ({
-        self: {
-            authorized: false
-        }
+        self: {}
     }),
     actions: {
         signIn(self) {
-            this.self = {
-                ...self,
-                authorized: true
-            }
+            this.self = self
         },
         signOut() {
             Cookies.remove('digitoll_token')
@@ -21,13 +16,7 @@ export const useSelfStore = defineStore('selfStore', {
             const domain = window.location.hostname
             const returnTo = domain === 'localhost' ? `http://localhost:3000` : `https://${domain}`
 
-            auth.logout({
-                returnTo
-            })
-
-            this.self = {
-                authorized: false
-            }
+            auth.logout({ returnTo })
         }
     }
 })
