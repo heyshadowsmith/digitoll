@@ -4,7 +4,8 @@ import Cookies from 'js-cookie'
 
 export const useSelfStore = defineStore('selfStore', {
     state: () => ({
-        self: {}
+        self: {},
+        digitolls: []
     }),
     actions: {
         signIn(self) {
@@ -17,6 +18,9 @@ export const useSelfStore = defineStore('selfStore', {
             const returnTo = domain === 'localhost' ? `http://localhost:3000` : `https://${domain}`
 
             auth.logout({ returnTo })
+        },
+        saveDigitolls(digitolls) {
+            this.digitolls = digitolls
         }
     }
 })

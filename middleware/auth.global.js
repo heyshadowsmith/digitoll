@@ -18,13 +18,21 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (accessToken) {
       if (hasValidAccessToken(accessToken)) {
         // Do something now that the user is authorized
-        const response = await axios.get('/api/v1/self', {
+        const { data: self } = await axios.get('/api/v1/self', {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
         })
 
-        store.signIn(response.data)
+        store.signIn(self)
+
+        const { data: digitolls } = await axios.get('/api/v1/digitoll/list', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+
+        store.saveDigitolls(digitolls)
         return
       }
     }
@@ -46,13 +54,21 @@ export default defineNuxtRouteMiddleware(async (to) => {
       Cookies.set('digitoll_token', silentAccessToken)
 
       // Do something now that the user is authorized
-      const response = await axios.get('/api/v1/self', {
+      const { data: self } = await axios.get('/api/v1/self', {
         headers: {
-          Authorization: `Bearer ${silentAccessToken}`
+          Authorization: `Bearer ${accessToken}`
         }
       })
 
-      store.signIn(response.data)
+      store.signIn(self)
+
+      const { data: digitolls } = await axios.get('/api/v1/digitoll/list', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+
+      store.saveDigitolls(digitolls)
       return
     }
 

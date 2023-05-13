@@ -7,7 +7,7 @@
         <button v-else @click="store.signOut()">Sign Out</button>
     </div>
     <p v-if="self.id">Signed in as {{ self.email }}.</p>
-    {{ self }}
+    <a v-for="(digitoll, index) in digitolls" :href="`https://dgtll.link/${digitoll.slug}`" :key="index">https://dgtll.link/{{digitoll.slug}}</a>
 </template>
 
 <script setup>
@@ -17,4 +17,5 @@ import auth from '~/auth'
 
 const store = useSelfStore()
 const { self } = storeToRefs(store)
+const { digitolls } = storeToRefs(store)
 </script>
