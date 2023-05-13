@@ -18,9 +18,14 @@ export default async (req, res) => {
         const price = req.body.price
         const destination = req.body.destination
         const slug = req.body.slug
-        const payoutAccountId = req.body.payoutAccountId
 
         try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    authId: decodedToken.sub,
+                }
+            })
+
             let digitollPrice
 
             const { data: prices } = await stripe.prices.search({
@@ -55,7 +60,7 @@ export default async (req, res) => {
                 },
                 application_fee_amount: digitollCommission,
                 transfer_data: {
-                    destination: payoutAccountId,
+                    destination: user.payoutAccountId,
                 }
             })
 
@@ -66,7 +71,7 @@ export default async (req, res) => {
                     destination,
                     User: {
                         connect: {
-                            payoutAccountId
+                            id: user.id
                         }
                     }
                 }
