@@ -42,10 +42,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
       Cookies.set('digitoll_token', accessToken)
 
-      const destinationURL = window.localStorage.getItem('destinationURL') || '/'
-      window.localStorage.removeItem('destinationURL')
-
-      return navigateTo(destinationURL)
+      return navigateTo('/')
     }
 
     const silentAccessToken = await silentlyAuthenticate(auth)
@@ -71,8 +68,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
       store.saveDigitolls(digitolls)
       return
     }
-
-    window.localStorage.setItem('destinationURL', currentRoute)
 
     return
   } catch (error) {
