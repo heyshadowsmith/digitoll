@@ -7,7 +7,11 @@
         <button v-else @click="store.signOut()">Sign Out</button>
     </div>
     <p v-if="self.id">Signed in as {{ self.email }}.</p>
-    <a v-for="(digitoll, index) in digitolls" :href="`https://dgtll.link/${digitoll.slug}`" :key="index">https://dgtll.link/{{digitoll.slug}}</a>
+    <ul>
+        <li v-for="(digitoll, index) in digitolls" :key="index">
+            <a :href="`https://dgtll.link/${digitoll.slug}`" :key="index">https://dgtll.link/{{digitoll.slug}}</a>
+        </li>
+    </ul>
 </template>
 
 <script setup>
