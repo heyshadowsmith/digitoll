@@ -28,4 +28,5 @@ model Digitoll {
   updatedAt   DateTime @updatedAt
   slug        String   @unique
   destination String
+  paymentUrl  String   @unique
 }

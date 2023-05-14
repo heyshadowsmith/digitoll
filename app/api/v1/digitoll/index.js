@@ -69,6 +69,7 @@ export default async (req, res) => {
                     payLinkId: paymentLink.id,
                     slug,
                     destination,
+                    paymentUrl: paymentLink.url,
                     User: {
                         connect: {
                             id: user.id
