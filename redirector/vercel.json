@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/:path*",
+        "destination": "https://digitoll.link/api/v1/toll/:path*"
+      }
+    ]
+  }
