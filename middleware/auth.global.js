@@ -53,7 +53,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
       // Do something now that the user is authorized
       const { data: self } = await axios.get('/api/v1/self', {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${silentAccessToken}`
         }
       })
 
@@ -61,7 +61,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
       const { data: digitolls } = await axios.get('/api/v1/digitoll/list', {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${silentAccessToken}`
         }
       })
 
