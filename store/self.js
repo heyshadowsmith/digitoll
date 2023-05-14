@@ -21,6 +21,9 @@ export const useSelfStore = defineStore('selfStore', {
         },
         saveDigitolls(digitolls) {
             this.digitolls = digitolls
+        },
+        addDigitoll(digitoll) {
+            this.digitolls.push(digitoll)
         }
     }
 })
