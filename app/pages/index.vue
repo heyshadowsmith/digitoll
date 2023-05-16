@@ -1,9 +1,9 @@
 <template>
     <button v-if="!self.id" @click="auth.authorize({})">Sign In</button>
-    <div v-else class="ml-10">
-        <DigiLogo class="mt-12 mb-8" />
+    <div v-else class="px-4 pt-4 lg:pl-10 lg:pb-12">
+        <DigiLogo class="mb-8" />
         <div class="max-w-sm mb-16">
-            <h2 class="font-medium leading-4 text-zinc-600 mb-4">Create a Digitoll</h2>
+            <h2 class="font-medium leading-4 text-zinc-500 mb-4">Create a Digitoll</h2>
             <form @submit.prevent="createDigitoll()">
                 <div class="flex flex-col py-2">
                     <label for="destination" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Destination URL</label>
