@@ -1,36 +1,47 @@
 <template>
-    <button v-if="!self.id" @click="auth.authorize({})">Sign In</button>
-    <div v-else class="px-4 pt-4 lg:pl-10 lg:pb-12">
-        <DigiLogo class="mb-8" />
-        <div class="max-w-sm mb-16">
-            <h2 class="font-medium leading-4 text-zinc-500 mb-4">Create a Digitoll</h2>
-            <form @submit.prevent="createDigitoll()">
-                <div class="flex flex-col py-2">
-                    <label for="destination" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Destination URL</label>
-                    <input type="text" name="destination" v-model="formState.destination" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
-                </div>
-                <div class="flex flex-col py-2">
-                    <label for="slug" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Slug</label>
-                    <input type="text" name="slug" v-model="formState.slug" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
-                </div>
-                <div class="flex flex-col py-2">
-                    <label for="price" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Price</label>
-                    <input type="number" min="100" name="price" v-model="formState.price" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
-                </div>
+    <div class="min-h-screen flex justify-between flex-col items-center">
+        <div class="min-h-screen w-full flex flex-col justify-between p-4 md:flex-row md:max-w-[920px] md:px-4 md:py-12 lg:px-0">
+            <div class="w-full md:w-[380px] flex flex-col justify-between">
+                <div>
+                    <DigiLogo class="mb-8" />
+                    <h2 class="font-medium leading-4 text-zinc-500 mb-4">Create a Digitoll</h2>
+                    <form @submit.prevent="createDigitoll()">
+                        <div class="flex flex-col py-2">
+                            <label for="destination" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Destination URL</label>
+                            <input type="text" name="destination" v-model="formState.destination" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
+                        </div>
+                        <div class="flex flex-col py-2">
+                            <label for="slug" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Slug</label>
+                            <input type="text" name="slug" v-model="formState.slug" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
+                        </div>
+                        <div class="flex flex-col py-2">
+                            <label for="price" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Price</label>
+                            <input type="number" min="100" name="price" v-model="formState.price" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
+                        </div>
 
-                <input type="submit" value="Create" class="w-full bg-primary text-white py-2 px-4 mt-5 rounded cursor-pointer shadow-sm" />
-            </form>
+                        <input type="submit" value="Create" class="w-full bg-primary text-white py-2 px-4 mt-5 rounded cursor-pointer shadow-sm" />
+                    </form>
+                </div>
+                <footer class="flex flex-col items-center text-neutral-400 text-xs md:flex-row mt-6">
+                    <div class="flex flex-col border-gray-200 md:border md:border-y-0 md:border-l-0 md:border-r-1 md:flex-row md:pr-4">
+                        <button v-if="!self.id" @click="auth.authorize({})" class="py-2 px-2 md:pl-0">Sign In</button>
+                        <button v-else @click="store.signOut()" class="py-2 px-2 md:pl-0">Sign Out</button>
+                        <a :href="self.loginLink" class="py-2 px-2">Payout Sign In</a>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:pl-4">
+                        <a href="#" class="py-2 px-2">Terms</a>
+                        <a href="#" class="py-2 px-2">Privacy</a>
+                    </div>
+                </footer>
+            </div>
+            <div class="w-full md:w-[380px]">
+                <ul>
+                    <li v-for="(digitoll, index) in digitolls" :key="index">
+                        <a :href="`https://dgtll.link/${digitoll.slug}`" :key="index" target="_blank">https://dgtll.link/{{digitoll.slug}}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <ul>
-            <li v-for="(digitoll, index) in digitolls" :key="index">
-                <a :href="`https://dgtll.link/${digitoll.slug}`" :key="index" target="_blank">https://dgtll.link/{{digitoll.slug}}</a>
-            </li>
-        </ul>
-        <div v-if="self.onboardingLink"><a :href="self.onboardingLink">Finish setting up your payout details</a></div>
-        <div v-if="self.loginLink"><a :href="self.loginLink">Login to your payout account</a></div>
-        <div v-if="self.editAccountLink"><a :href="self.editAccountLink">Edit your payout account details</a></div>
-        <button @click="store.signOut()">Sign Out</button>
-        <p>Signed in as {{ self.email }}.</p>
     </div>
 </template>
 
