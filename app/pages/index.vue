@@ -3,7 +3,7 @@
         <div class="min-h-screen w-full flex flex-col justify-between p-4 md:flex-row md:max-w-[920px] md:px-4 md:py-12 lg:px-0">
             <div class="w-full md:w-[380px] flex flex-col justify-between">
                 <div>
-                    <DigiLogo class="mb-8" />
+                    <img src="/digitoll-wordmark.svg" alt="Digitoll Logo" class="mb-8">
                     <h2 class="font-medium leading-4 text-zinc-500 mb-4">Create a Digitoll</h2>
                     <form @submit.prevent="createDigitoll()">
                         <div class="flex flex-col py-2">
@@ -24,8 +24,7 @@
                 </div>
                 <footer class="flex flex-col items-center text-neutral-400 text-xs mt-6 justify-center sm:flex-row md:justify-start">
                     <div class="flex flex-col border-gray-200 sm:border sm:border-y-0 sm:border-l-0 sm:border-r-1 sm:flex-row sm:pr-4">
-                        <button v-if="!self.id" @click="auth.authorize({})" class="py-2 px-2 md:pl-0">Sign In</button>
-                        <button v-else @click="store.signOut()" class="py-2 px-2 md:pl-0">Sign Out</button>
+                        <button @click="store.signOut()" class="py-2 px-2 md:pl-0">Sign Out</button>
                         <a :href="`/api/v1/self/payoutSignIn?payoutAccountId=${self.payoutAccountId}`" class="py-2 px-2">Payout Sign In</a>
                     </div>
                     <div class="flex flex-col sm:flex-row sm:pl-4">
@@ -35,7 +34,7 @@
                 </footer>
             </div>
             <div class="w-full md:w-[380px]">
-                <ul>
+                <ul v-if="digitolls">
                     <li v-for="(digitoll, index) in digitolls" :key="index">
                         <a :href="`https://dgtll.link/${digitoll.slug}`" :key="index" target="_blank">https://dgtll.link/{{digitoll.slug}}</a>
                     </li>
@@ -49,7 +48,6 @@
 import axios from 'axios'
 import { useSelfStore } from '~/store/self'
 import { storeToRefs } from 'pinia'
-import auth from '~/auth'
 import Cookies from 'js-cookie'
 
 const store = useSelfStore()
