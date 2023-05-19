@@ -15,7 +15,7 @@ export default async (req, res) => {
             res.redirect(digitoll.paymentUrl)
             return
         } catch(error) {
-            res.status(500).json({ messages: ['Something went wrong.'] })
+            res.status(500).json({ messages: ['Something unexpected occurred.']})
             return
         }
     }

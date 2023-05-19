@@ -7,7 +7,7 @@ export default async (req, res) => {
     const decodedToken = await getVerifiedDecodedToken(req)
 
     if (!decodedToken) {
-        res.status(401).json({ messages: ['Unauthorized'] })
+        res.status(401).json({ messages: ['Unauthorized']})
         return
     }
 
@@ -29,8 +29,7 @@ export default async (req, res) => {
             return
         } catch (error) {
             console.error(error)
-            res.status(500)
-
+            res.status(500).json({ messages: ['Something unexpected occurred.']})
             return
         }
 

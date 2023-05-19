@@ -5,7 +5,7 @@ export default async (req, res) => {
     const apiKey = req.headers['x-api-key']
 
     if (apiKey !== process.env.DIGITOLL_API_KEY) {
-        res.status(401).json({ messages: ['Unauthorized'] })
+        res.status(401).json({ messages: ['Unauthorized']})
         return
     }
 
@@ -45,7 +45,7 @@ export default async (req, res) => {
             res.json(user)
             return
         } catch (error) {
-            res.status(500).json({ messages: ['Something went wrong.'] })
+            res.status(500).json({ messages: ['Something unexpected occurred.']})
             return
         }
     }
