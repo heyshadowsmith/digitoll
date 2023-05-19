@@ -25,14 +25,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
         })
 
         store.signIn(self)
-
-        const { data: digitolls } = await axios.get('/api/v1/digitoll/list', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
-
-        store.saveDigitolls(digitolls)
         return
       }
     }
@@ -58,14 +50,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
       })
 
       store.signIn(self)
-
-      const { data: digitolls } = await axios.get('/api/v1/digitoll/list', {
-        headers: {
-          Authorization: `Bearer ${silentAccessToken}`
-        }
-      })
-
-      store.saveDigitolls(digitolls)
       return
     }
 
