@@ -22,13 +22,13 @@
                         <input type="submit" value="Create" class="w-full bg-primary text-white py-2 px-4 mt-5 rounded cursor-pointer shadow-sm" />
                     </form>
                 </div>
-                <footer class="flex flex-col items-center text-neutral-400 text-xs md:flex-row mt-6">
-                    <div class="flex flex-col border-gray-200 md:border md:border-y-0 md:border-l-0 md:border-r-1 md:flex-row md:pr-4">
+                <footer class="flex flex-col items-center text-neutral-400 text-xs mt-6 justify-center sm:flex-row md:justify-start">
+                    <div class="flex flex-col border-gray-200 sm:border sm:border-y-0 sm:border-l-0 sm:border-r-1 sm:flex-row sm:pr-4">
                         <button v-if="!self.id" @click="auth.authorize({})" class="py-2 px-2 md:pl-0">Sign In</button>
                         <button v-else @click="store.signOut()" class="py-2 px-2 md:pl-0">Sign Out</button>
-                        <a :href="self.loginLink" class="py-2 px-2">Payout Sign In</a>
+                        <a :href="`/api/v1/self/payoutSignIn?payoutAccountId=${self.payoutAccountId}`" class="py-2 px-2">Payout Sign In</a>
                     </div>
-                    <div class="flex flex-col md:flex-row md:pl-4">
+                    <div class="flex flex-col sm:flex-row sm:pl-4">
                         <a href="#" class="py-2 px-2">Terms</a>
                         <a href="#" class="py-2 px-2">Privacy</a>
                     </div>
