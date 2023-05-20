@@ -75,6 +75,13 @@ export default async (req, res) => {
                             id: user.id
                         }
                     }
+                },
+                select: {
+                    id: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    slug: true,
+                    destination: true
                 }
             })
 

@@ -22,6 +22,13 @@ export default async (req, res) => {
             const digitolls = await prisma.digitoll.findMany({
                 where: {
                     userId: user.id
+                },
+                select: {
+                    id: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    slug: true,
+                    destination: true
                 }
             })
 
