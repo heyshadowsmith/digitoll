@@ -9,9 +9,7 @@ export default defineNuxtConfig({
             autoprefixer: {}
         }
     },
-    head: {
-        link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-        ]
-    }
+    meta: {
+        title: 'Digitoll',
+    },
 })
