@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import auth from '~/auth'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 
 export const useSelfStore = defineStore('selfStore', {
     state: () => ({
@@ -8,7 +9,13 @@ export const useSelfStore = defineStore('selfStore', {
         digitolls: []
     }),
     actions: {
-        signIn(self) {
+        async signIn() {
+            const { data: self } = await axios.get('/api/v1/self', {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('digitoll_token')}`
+                }
+            })
+
             this.self = self
         },
         signOut() {
@@ -19,10 +26,27 @@ export const useSelfStore = defineStore('selfStore', {
 
             auth.logout({ returnTo })
         },
-        saveDigitolls(digitolls) {
+        async getDigitolls() {
+            const { data: digitolls } = await axios.get('/api/v1/digitoll/list', {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('digitoll_token')}`
+                }
+            })
+
             this.digitolls = digitolls
         },
-        addDigitoll(digitoll) {
+        async createDigitoll(data) {
+            data = {
+                ...data,
+                price: data.price * 100
+            }
+
+            const { data: digitoll } = await axios.post('/api/v1/digitoll', data, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('digitoll_token')}`
+                }
+            })
+
             this.digitolls.push(digitoll)
         }
     }
