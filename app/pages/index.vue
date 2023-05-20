@@ -8,15 +8,15 @@
                     <form @submit.prevent="createDigitoll()">
                         <div class="flex flex-col py-2">
                             <label for="destination" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Destination URL</label>
-                            <input type="text" name="destination" v-model="formState.destination" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
+                            <input type="text" name="destination" v-model="formData.destination" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
                         </div>
                         <div class="flex flex-col py-2">
                             <label for="slug" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Slug</label>
-                            <input type="text" name="slug" v-model="formState.slug" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
+                            <input type="text" name="slug" v-model="formData.slug" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
                         </div>
                         <div class="flex flex-col py-2">
                             <label for="price" class="text-xs font-medium leading-4 text-zinc-600 mb-1">Price</label>
-                            <input type="number" min="100" name="price" v-model="formState.price" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
+                            <input type="number" min="1" name="price" v-model="formData.price" class="py-2 px-3 h-11 text-zinc-800 border rounded-md shadow-sm">
                         </div>
 
                         <input type="submit" value="Create" class="w-full bg-primary text-white py-2 px-4 mt-5 rounded cursor-pointer shadow-sm" />
@@ -54,20 +54,22 @@ const store = useSelfStore()
 const { self } = storeToRefs(store)
 const { digitolls } = storeToRefs(store)
 
-const formState = reactive({ 
+store.getDigitolls()
+
+const formData = reactive({ 
     destination: '',
     slug: '',
-    price: 100
+    price: 1
 })
 
 async function createDigitoll () {
-    const accessToken = Cookies.get('digitoll_token')
-    const { data } = await axios.post('/api/v1/digitoll', formState, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    })
+    await store.createDigitoll(formData)
+    resetFormData()
+}
 
-    store.addDigitoll(data)
+function resetFormData() {
+    formData.destination = ''
+    formData.slug = ''
+    formData.price = 1
 }
 </script>
