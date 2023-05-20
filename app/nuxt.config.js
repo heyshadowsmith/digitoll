@@ -9,7 +9,9 @@ export default defineNuxtConfig({
             autoprefixer: {}
         }
     },
-    meta: {
-        title: 'Digitoll',
-    },
+    app: {
+        head: {
+            title: 'Digitoll'
+        }
+    }
 })
